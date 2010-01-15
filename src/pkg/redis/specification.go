@@ -65,9 +65,9 @@ func GetKeyType(typename string) (keytype KeyType) {
 type Status bool
 
 const (
-	OK   bool = true
-	PONG      = true
-	ERR       = false
+	OK   = true
+	PONG = true
+	ERR  = false
 )
 
 // Request type defines the characteristic pattern of a cmd request
