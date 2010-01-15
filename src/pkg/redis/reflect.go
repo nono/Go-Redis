@@ -1,11 +1,11 @@
 //   Copyright 2009 Joubin Houshyar
-// 
+//
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
 //   You may obtain a copy of the License at
-//    
+//
 //   http://www.apache.org/licenses/LICENSE-2.0
-//    
+//
 //   Unless required by applicable law or agreed to in writing, software
 //   distributed under the License is distributed on an "AS IS" BASIS,
 //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,7 +16,7 @@
 package redis
 
 import (
-	"reflect";
+	"reflect"
 )
 
 // ----------------------------------------------------------------------------
@@ -25,47 +25,48 @@ import (
 //	(independent) little package as using Go reflection is quite tedious.
 // ----------------------------------------------------------------------------
 
-func ToByteSliceArray (v *reflect.StructValue) (bsa [][]byte, ok bool) {
-	n:= v.NumField();
-	bsa = make([][]byte, n);
-	for i:=0; i<n; i++ {
-		bsa[i], ok = GetByteArrayAtIndex (v, i);
+func ToByteSliceArray(v *reflect.StructValue) (bsa [][]byte, ok bool) {
+	n := v.NumField()
+	bsa = make([][]byte, n)
+	for i := 0; i < n; i++ {
+		bsa[i], ok = GetByteArrayAtIndex(v, i)
 		if !ok {
-			if debug() {}
-			break;
+			if debug() {
+			}
+			break
 		}
 	}
-	return;
+	return
 }
 // TODO: document me
 //
-func GetByteArrayAtIndex(v *reflect.StructValue, i int) (arr []byte, ok bool){
-	field := v.Field(i);
-	return GetByteArray (field);
-}
-
-// TODO: document me
-//
-func GetByteArray (v reflect.Value) (arr []byte, ok bool) {
-	switch v := v.(type) {
-	case reflect.ArrayOrSliceValue:
-		aosv := reflect.ArrayOrSliceValue(v);
-		arr = make([]byte, aosv.Len());
-		for i:=0; i<aosv.Len();i++ {
-			arr[i] = aosv.Elem(i).(*reflect.Uint8Value).Get(); 
-		} 
-		return arr, true;
-	}
-	return;
+func GetByteArrayAtIndex(v *reflect.StructValue, i int) (arr []byte, ok bool) {
+	field := v.Field(i)
+	return GetByteArray(field)
 }
 
 // TODO: document me
 //
-func GetByteArrayLen (v reflect.Value) (len int, ok bool) {
+func GetByteArray(v reflect.Value) (arr []byte, ok bool) {
 	switch v := v.(type) {
 	case reflect.ArrayOrSliceValue:
-		aosv := reflect.ArrayOrSliceValue(v);
-		return aosv.Len(), true;
+		aosv := reflect.ArrayOrSliceValue(v)
+		arr = make([]byte, aosv.Len())
+		for i := 0; i < aosv.Len(); i++ {
+			arr[i] = aosv.Elem(i).(*reflect.Uint8Value).Get()
+		}
+		return arr, true
 	}
-	return;
+	return
+}
+
+// TODO: document me
+//
+func GetByteArrayLen(v reflect.Value) (len int, ok bool) {
+	switch v := v.(type) {
+	case reflect.ArrayOrSliceValue:
+		aosv := reflect.ArrayOrSliceValue(v)
+		return aosv.Len(), true
+	}
+	return
 }
